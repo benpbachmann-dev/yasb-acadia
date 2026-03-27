@@ -1,0 +1,679 @@
+watch_stylesheet: true
+watch_config: true
+debug: false
+update_check: true
+#https://docs.yasb.dev/dev/configuration
+komorebi:
+  start_command:  "pwsh -command \"komorebic start --ahk\" & pwsh -command \"komorebic change-layout ultrawide-vertical-stack\""
+  stop_command:   "pwsh -command \" komorebic stop  --ahk\""
+  reload_command: "pwsh -command \" komorebic stop  --ahk\" & pwsh -command \"komorebic start --ahk\" &  pwsh -command \"komorebic change-layout ultrawide-vertical-stack\""
+bars:
+  primary-bar:
+    enabled: true
+    screens: ["primary"]
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      center: false
+    animation:
+      enabled: true
+      duration: 400
+    blur_effect:
+      enabled: true
+      acrylic: false
+      dark_mode: true
+      round_corners: true
+      round_corners_type: "normal"
+      border_color: "None"
+    window_flags:
+      always_on_top: true
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 20
+    padding:
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+    widgets:
+      left: 
+      - "home"
+      - "komorebi_workspaces"
+      - "komorebi_active_layout"
+      - "komorebi_stack"
+      - "taskbar"
+      center:
+      - "clock-grouper"
+      right:
+      - "apps"
+      - "media"
+      - "bluetooth"
+      - "volume"
+      - "ahk"
+      - "systray"
+      - "resources-group"
+
+widgets:
+  media:
+    type: "yasb.media.MediaWidget"
+    options:
+      label: "{title} - {artist}"
+      label_alt: "{title}"
+      hide_empty: true
+      callbacks:
+        on_left: "toggle_media_menu"
+        on_middle: "toggle_play_pause"
+        on_right: "toggle_label"
+      max_field_size:
+        label: 30
+        label_alt: 200
+      show_thumbnail: true
+      controls_only: false
+      controls_left: false
+      controls_hide: true
+      thumbnail_edge_fade: true
+      thumbnail_padding: 32
+      scrolling_label:
+        enabled: true
+        update_interval_ms: 50
+        style: "left"
+        separator: " "
+        label_padding: 2
+        ease_slope: 20
+        ease_pos: 0.8
+        ease_min: 0.5
+      icons:
+        prev_track: "\ue892"
+        next_track: "\ue893"
+        play: "\ue768"
+        pause: "\ue769"
+      media_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "None"
+        alignment: "right"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+        thumbnail_corner_radius: 4
+        thumbnail_size: 120
+        max_title_size: 60
+        max_artist_size: 20
+        show_source: true
+        show_volume_slider: True
+      media_menu_icons:
+        play: "\ue768"
+        pause: "\ue769"
+        prev_track: "\ue892"
+        next_track: "\ue893"
+      scrolling_label:
+        enabled: true
+        update_interval_ms: 50
+        style: "left"
+        separator: " "
+  language:
+    type: "yasb.language.LanguageWidget"
+    options:
+      label: "<span>\uf11c</span> {lang[country_code]}"
+      label_alt: "{lang[full_name]}"
+      update_interval: 5
+      callbacks:
+        on_left: "toggle_menu"
+        on_middle: "do_nothing"
+        on_right: "toggle_label"
+      language_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "None"
+        alignment: "right"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+        show_layout_icon: true
+        layout_icon: "\uf11c"
+      container_padding:
+        top: 0
+        left: 2
+        bottom: 0
+        right: 2
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "{info[percent][total]}"
+      update_interval: 2000
+      hide_decimal: true
+      progress_bar:
+        enabled: True
+        position: 'left'
+        size: 17
+        thickness: 7
+        color: '#d2e5f4'
+        animation: True
+      callbacks:
+        on_right: "exec cmd /c Taskmgr"
+        on_left: "toggle_menu"
+        on_middle: "do_nothing"
+      menu:
+        enabled: True
+        show_graph: true
+        show_graph_grid: true
+        graph_history_size: 90
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      hide_decimal: true
+      label: "{virtual_mem_percent}"
+      label_alt: "{virtual_mem_used}"
+      update_interval: 2000
+      progress_bar: 
+        enabled: True
+        position: 'left'
+        size: 17
+        thickness: 7
+        color: '#d2e5f4'
+        animation: True
+      callbacks:
+        on_left: "toggle_label"
+        on_middle: "do_nothing"
+        on_right: "do_nothing"
+  systray:
+    type: "yasb.systray.SystrayWidget"
+    options:
+      class_name: "systray"
+      label_collapsed: "\uf47d"
+      label_expanded: "\uf460"
+      label_position: "right"
+      icon_size: 16
+      pin_click_modifier: "alt"
+      show_unpinned: false
+      show_unpinned_button: true
+      show_battery: false
+      show_volume: false
+      show_network: false
+      tooltip: true
+  home:
+    type: "yasb.home.HomeWidget"
+    options:
+      label: "<span>\uf192</span>"
+      menu_list:
+      - { title: "User Home", path: "~" }
+      - { title: "Download", path: "~\\Downloads" }
+      - { title: "Documents", path: "~\\Documents" }
+      - { title: "Pictures", path: "~\\Pictures" }
+      system_menu: true
+      power_menu: true
+      blur: true
+      border_color: "None"
+      container_padding:
+        top: 0
+        left: 6
+        bottom: 0
+        right: 4
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%H:%M:%S}"
+      label_alt: "{%A, %d %B %Y %H:%M}"
+      timezones: []
+      calendar: 
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "None"
+        alignment: "center"
+        direction: "down"
+      callbacks:
+        on_left: "toggle_calendar"
+        on_right: "toggle_label"
+  komorebi_workspaces:
+    type: "komorebi.workspaces.WorkspaceWidget"
+    options:
+      label_offline: "\u23fc Offline"
+      label_workspace_btn: "\udb80\udd30"
+      label_workspace_active_btn: "\udb80\udd2f"
+      label_workspace_populated_btn: "\udb80\udd30"
+      label_default_name: "{index}"
+      label_zero_index: false
+      hide_empty_workspaces: false
+      hide_if_offline: true
+      animation: true
+  volume:
+    type: "yasb.volume.VolumeWidget"
+    options:
+      label: "<span>{icon}</span> {level}"
+      label_alt: "{level}"
+      volume_icons:
+        - "\ueee8"
+        - "\uf026"
+        - "\uf027"
+        - "\uf027"
+        - "\uf028"
+      callbacks:
+        on_left: "toggle_volume_menu"
+        on_right: "toggle_mute"
+      audio_menu:
+        blur: true # Enable blur effect for the menu
+        round_corners: true # Enable round corners for the menu (not supported on Windows 10)
+        round_corners_type: "normal" # Set the type of round corners for the menu (normal, small) (not supported on Windows 10)
+        border_color: "system" # Set the border color for the menu, "system", Hex color or None
+        alignment: "right" # Set the alignment of the menu (left, right, center)
+        direction: "down" # Set the direction of the menu (up, down)
+        offset_top: 6 # Set the top offset of the menu
+        offset_left: 0 # Set the left offset of the menu
+        show_apps: true # Whether to show the list of applications with audio sessions
+        show_app_labels: false # Whether to show application labels in the audio menu
+        show_app_icons: true # Whether to show application icons in the audio menu
+        show_apps_expanded: false # Whether application volumes are expanded by default when opening the menu
+        app_icons: # Icons for the toggle button to expand/collapse application volumes
+          toggle_down: "\uf078" # Icon for btn collapsed state
+          toggle_up: "\uf077" # Icon for btn expanded state
+      container_padding:
+        top: 0
+        left: 2
+        bottom: 0
+        right: 2
+  power_menu:
+    type: "yasb.power_menu.PowerMenuWidget"
+    options:
+      label: "\uf011"
+      uptime: true
+      blur: false
+      blur_background: true
+      animation_duration: 200
+      button_row: 5
+      buttons:
+        shutdown: ["\uf011", "Shut Down"]
+        restart: ["\uead2", "Restart"]
+        signout: ["\udb80\udf43", "Sign out"]
+        hibernate: ["\uf28e", "Hibernate"]
+        sleep: ["\u23fe", "Sleep"]
+        cancel: ["\ueab8", "Close"]
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 6
+  notifications:
+    type: "yasb.notifications.NotificationsWidget"
+    options:
+      label: "<span>\uf476</span> {count}"
+      label_alt: "{count} notifications"
+      hide_empty: true
+      tooltip: false
+      callbacks:
+        on_left: "toggle_notification"
+        on_right: "do_nothing"
+        on_middle: "toggle_label"
+      container_padding:
+        top: 0
+        left: 4
+        bottom: 0
+        right: 4
+  weather:
+    type: "yasb.weather.WeatherWidget"
+    options:
+      label: "<span>{icon}</span> {temp}"
+      label_alt: "{location}: Min {min_temp}, Max {max_temp}, Humidity {humidity} "
+      api_key: "ac7dd92ac2c74225a54115937242209" #https://www.weatherapi.com/my/
+      update_interval: 3600
+      animation :
+        enabled: true
+        type: "fadeInOut"
+        duration: 200
+      units: "imperial"
+      location: "USA Arlington Heightes 60004"
+      callbacks:
+        on_left: "toggle_card"
+        on_middle: "do_nothing"
+        on_right: "toggle_label"
+      icons:
+        sunnyDay: "\ue30d"
+        clearNight: "\ue32b"
+        cloudyDay: "\ue312"
+        cloudyNight: "\ue311"
+        rainyDay: "\ue308"
+        rainyNight: "\ue333"
+        # snowyIcyDay: "\ue30a"
+        # snowyIcyNight: "\ue335"
+        # blizzardDay: "\udb83\udf36"
+        # blizzardNight: "\udb83\udf36"
+        foggyDay: "\ue303"
+        foggyNight: "\ue346"
+        thunderstormDay: "\ue30f"
+        thunderstormNight: "\ue338"
+        default: "\uebaa"
+      weather_card:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "system"
+        alignment: "right"
+        direction: "down"
+        icon_size: 64
+        show_hourly_forecast: true # Set to False to disable hourly forecast
+        time_format: "24h" # can be 12h or 24h
+        hourly_point_spacing: 76
+        hourly_icon_size: 32 # better to set 16, 32 or 64 for better quality
+        icon_smoothing: true # should be true for smoother icon or false for sharper icon if using 16, 32 or 64 for hourly_icon_size
+        temp_line_width: 2 # can be 0 to hide the temperature line
+        current_line_color: "#8EAEE8"
+        current_line_width: 1 # can be 0 to hide the current hour line
+        current_line_style: "dot"
+        # hourly_gradient:
+        #   enabled: false
+        #   top_color: "#8EAEE8"
+        #   bottom_color: "#2A3E68"
+        # hourly_forecast_buttons: # Optional hourly forecast data type toggle buttons, default disabled
+        #   enabled: true # Set to false to hide the buttons
+        #   default_view: "temperature" # Default view when opening the weather card. Options: "temperature", "rain", "snow"
+        #   temperature_icon: "\udb81\udd99"
+        #   rain_icon: "\udb81\udd96"
+        #   snow_icon: "\udb81\udd98"
+        weather_animation:
+          enabled: false
+          snow_overrides_rain: true
+          temp_line_animation_style: both # can be "rain", "snow", "both", or "none"
+          rain_effect_intensity: 0.07 # 0.01 - 10.0
+          snow_effect_intensity: 0.07 # 0.01 - 10.0
+          scale_with_chance: true
+          enable_debug: false
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  active_window:
+    type: "yasb.active_window.ActiveWindowWidget"
+    options:
+      label: "{win[title]}"
+      label_alt: "[class_name='{win[class_name]}' exe='{win[process][name]}' hwnd={win[hwnd]}]"
+      label_no_window: ""
+      label_icon: true
+      label_icon_size: 16
+      max_length: 36
+      max_length_ellipsis: "..."
+      monitor_exclusive: false
+  resources-group:
+    type: "yasb.grouper.GrouperWidget"
+    options:
+      class_name: "grouped-widgets"
+      widgets: [
+        "memory",
+        "dotseparator",
+        "cpu"
+      ]
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+  taskbar:
+    type: "yasb.taskbar.TaskbarWidget"
+    options:
+        icon_size: 16
+        animation:
+          enabled: true
+        title_label:
+          enabled: false
+          show: "always"
+          min_length: 10
+          max_length: 30
+        ignore_apps:
+          processes: []
+          titles: []
+          classes: []
+  ahk:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "\ue615"
+      label_alt: "\udb81\ude74"
+      class_name: "ahk-widget"
+      callbacks:
+        on_left: "exec code -n \"C:\\Users\\benpb\\.config\\"
+        on_middle: "exec pwsh -command \" komorebic stop  --ahk\" & pwsh -command \"komorebic start --ahk\" &  pwsh -command \"komorebic change-layout ultrawide-vertical-stack\""
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+  launchpad:
+    type: "yasb.launchpad.LaunchpadWidget"
+    options:
+      label: "<span>\udb85\udcde</span>"
+      search_placeholder: "Search apps..."
+      app_icon_size: 48
+      window:
+        fullscreen: false
+        width: 800
+        height: 600
+        overlay_block: true
+      window_style:
+        enable_blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "system"
+      window_animation:
+        fade_in_duration: 200
+        fade_out_duration: 200
+      callbacks:
+        on_left: "toggle_launchpad"
+      app_title_shadow:
+        enabled: true
+        color: "#00000090"
+        offset: [1, 1]
+        radius: 2
+      app_icon_shadow:
+        enabled: true
+        color: "#00000090"
+        offset: [0, 2]
+        radius: 8        
+  window_controls:
+    type: "yasb.window_controls.WindowControlsWidget"
+    options:
+      show_app_name: true
+      maximized_only: false
+      buttons: ["minimize", "maximize", "close"]
+      button_labels:
+          minimize: "\uea71"
+          maximize: "\uea71"
+          restore: "\uea71"
+          close: "\uea71"
+      monitor_exclusive: true
+      animation_duration: 120
+  komorebi_stack:
+    type: "komorebi.stack.StackWidget"
+    options:
+      label_offline: "Offline"
+      label_window: "{process}"
+      label_window_active: "{title}"
+      label_no_window: "No Window"
+      label_zero_index: false
+      show_icons: "always"
+      icon_size: 14
+      max_length: 10
+      max_length_active: 20
+      max_length_ellipsis: ".."
+      hide_if_offline: false
+      show_only_stack: false
+      rewrite:
+        - pattern: "^(.+?)\\.exe$"
+          replacement: "\\1"
+          case: "lower"
+      animation: true
+      enable_scroll_switching : true
+      container_shadow:
+        enabled: true
+        color: "#000000"
+        offset: [0, 1]
+        radius: 2
+      btn_shadow:
+        enabled: true
+        color: "#000000"
+        offset: [0, 1]
+        radius: 2
+      label_shadow:
+        enabled: true
+        color: "#000000"
+        offset: [0, 1]
+        radius: 2
+  komorebi_active_layout:
+    type: "komorebi.active_layout.ActiveLayoutWidget"
+    options:
+      hide_if_offline: true
+      label: "{icon}"
+      layouts:
+        [
+          "bsp",
+          "columns",
+          "rows",
+          "grid",
+          "vertical_stack",
+          "horizontal_stack",
+          "ultrawide_vertical_stack",
+          "right_main_vertical_stack"
+        ]
+      layout_icons:
+        bsp: "\udb80\udccf"
+        columns: "\udb86\udeb7"
+        rows: "\udb86\udeb6"
+        grid: "\udb80\udec1"
+        vertical_stack: "\udb83\udfca"
+        horizontal_stack: "\uedf6"
+        right_main_vertical_stack: "\udb84\udcab"
+        ultrawide_vertical_stack: "\udb82\ude07"
+        monocle: "MONOCLE"
+        maximised: "MAX"
+        floating: "FLOATING"
+        paused: "PAUSED"
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+      callbacks:
+        on_left: "toggle_layout_menu"
+        on_middle: "next_layout"
+        on_right: "prev_layout"
+      layout_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "System"
+        alignment: "left"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+        show_layout_icons: true
+  bluetooth:
+    type: "yasb.bluetooth.BluetoothWidget"
+    options:
+      label: "<span>{icon}</span>"
+      label_alt: "{device_name}"
+      icons: 
+        bluetooth_on: "\uf293"
+        bluetooth_off: "\udb80\udcb2"
+        bluetooth_connected: "\udb80\udcaf"
+      callbacks:
+        on_right: "exec cmd.exe /c start ms-settings:bluetooth"  
+  komorebi_control:
+      type: "komorebi.control.KomorebiControlWidget"
+      options:
+        label: "<span>\udb80\uddd9</span>"
+        icons:
+          start: "\uead3"
+          stop: "\uead7"
+          reload: "\uead2"
+        run_ahk: true
+        run_whkd: false
+        run_masir: false
+        show_version: true
+        komorebi_menu:
+          blur: true
+          round_corners: true
+          round_corners_type: 'normal'
+          border_color: 'System'
+          alignment: 'left'
+          direction: 'down'
+          offset_top: 6
+          offset_left: 0
+        label_shadow:
+          enabled: true
+          color: "black"
+          radius: 3
+          offset: [ 1, 1 ]
+  apps:
+    type: "yasb.applications.ApplicationsWidget"
+    options:
+      label: "{data}"
+      app_list:
+        - {icon: "\uf0a2",       launch: "notification_center", name: "Notification Center"} # launch notification center
+        - {icon: "\uf489",       launch: "wt", name: "Windows Terminal"} # launch terminal
+        # - {icon: "\ue217",       launch: "\"C:\\Users\\benpb\\AppData\\Roaming\\Telegram\ Desktop\\Telegram.exe\"", name: "Telegram"} # launch telegram - "C:\Users\benpb\AppData\Roaming\Telegram Desktop\Telegram.exe"
+        - {icon: "\uebf8", launch: "\"C:\\Program Files\\Zen Browser\\zen.exe\" -new-tab \"https://www.youtube.com\"", name: "zen"} # "C:\Program Files\Zen Browser\zen.exe"
+        - {icon: "\ue8da", launch: "code", name: "Code"} # VSCode
+        - {icon: "\uf1bc", launch: "spotify", name: "Spotify"} # VSCode
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  screenshot:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "\uf50c"
+      label_alt: ""
+      class_name: "screenshot-widget"
+      callbacks:
+        on_left: "exec cmd /c powershell -c Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('{PRTSC}');"
+  dotseparator:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "    "
+      label_alt: ""
+      class_name: "dotseparator-widget"
+      callbacks:
+        on_left: "do_nothing"
+        on_middle: "do_nothing"
+        on_right: "do_nothing"
+  power_menu_alt:
+    type: "yasb.power_menu.PowerMenuWidget"
+    options:
+      label: "<span>\uf51b</span>"
+      uptime: False
+      show_user: False
+      blur: False
+      blur_background: True
+      animation_duration: 120 # Milliseconds
+      button_row: 4 # Number of buttons in a row, min 1 max 6
+      buttons:
+        lock: ["\udb80\udf41", "Lock"]
+        sleep: ["\ue32b", "Sleep"]
+        signout: ["\udb81\uddfd", "Sign out"]
+        force_restart: ["\udb84\udd0c", "Force Reboot"]
+        hibernate: ["\uf28e", "Hibernate"]
+        shutdown: ["\uf011", "Shut Down"]
+        restart: ["\uead2", "Reboot"]
+        cancel: ["\udb81\udf3a", "Cancel"]
+      label_shadow:
+        enabled: False
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  windows_workspaces:
+    type: "yasb.windows_desktops.WorkspaceWidget"
+    options:
+      label_workspace_btn: "\u2022"
+      label_workspace_active_btn: "\uebb4"
+      animation: True
+  clock-grouper:
+    type: "yasb.grouper.GrouperWidget"
+    options:
+      class_name: "clock-grouper"
+      widgets: [
+        "screenshot",
+        "clock",
+        "weather"
+      ]
