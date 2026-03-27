@@ -336,10 +336,6 @@ widgets:
         cloudyNight: "\ue311"
         rainyDay: "\ue308"
         rainyNight: "\ue333"
-        # snowyIcyDay: "\ue30a"
-        # snowyIcyNight: "\ue335"
-        # blizzardDay: "\udb83\udf36"
-        # blizzardNight: "\udb83\udf36"
         foggyDay: "\ue303"
         foggyNight: "\ue346"
         thunderstormDay: "\ue30f"
@@ -362,16 +358,6 @@ widgets:
         current_line_color: "#8EAEE8"
         current_line_width: 1 # can be 0 to hide the current hour line
         current_line_style: "dot"
-        # hourly_gradient:
-        #   enabled: false
-        #   top_color: "#8EAEE8"
-        #   bottom_color: "#2A3E68"
-        # hourly_forecast_buttons: # Optional hourly forecast data type toggle buttons, default disabled
-        #   enabled: true # Set to false to hide the buttons
-        #   default_view: "temperature" # Default view when opening the weather card. Options: "temperature", "rain", "snow"
-        #   temperature_icon: "\udb81\udd99"
-        #   rain_icon: "\udb81\udd96"
-        #   snow_icon: "\udb81\udd98"
         weather_animation:
           enabled: false
           snow_overrides_rain: true
@@ -611,7 +597,6 @@ widgets:
       app_list:
         - {icon: "\uf0a2",       launch: "notification_center", name: "Notification Center"} # launch notification center
         - {icon: "\uf489",       launch: "wt", name: "Windows Terminal"} # launch terminal
-        # - {icon: "\ue217",       launch: "\"C:\\Users\\benpb\\AppData\\Roaming\\Telegram\ Desktop\\Telegram.exe\"", name: "Telegram"} # launch telegram - "C:\Users\benpb\AppData\Roaming\Telegram Desktop\Telegram.exe"
         - {icon: "\uebf8", launch: "\"C:\\Program Files\\Zen Browser\\zen.exe\" -new-tab \"https://www.youtube.com\"", name: "zen"} # "C:\Program Files\Zen Browser\zen.exe"
         - {icon: "\ue8da", launch: "code", name: "Code"} # VSCode
         - {icon: "\uf1bc", launch: "spotify", name: "Spotify"} # VSCode
